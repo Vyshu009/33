@@ -1,82 +1,138 @@
 const Engine = Matter.Engine;
-const World= Matter.World;
+const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
 var engine, world;
-var box1, pig1;
-var backgroundImg,platform;
-var bird, slingShot;
 
-function preload() {
-    backgroundImg = loadImage("sprites/bg.png");
+var base, stand1, stand2;
+
+var block1, block2, block3, block4, block5, block6, block7, block8, block9, block10, block11, block12, block13,
+    block14, block15, block16;
+
+var block17, block18, block19, block20, block21, block22, block23, block24, block25;
+
+var polygon, slingshot;
+
+function setup() {
+  createCanvas(1200,600);
+
+  engine = Engine.create();
+  world = engine.world;
+
+  base = new Ground(600,590,1200,25);
+  stand1 = new Ground(500,480,310,20);
+  stand2 = new Ground(900,250,250,20);
+
+  //level one
+  block1 = new Block(400,400,35,50);
+  block2 = new Block(435,400,35,50);
+  block3 = new Block(470,400,35,50);
+  block4 = new Block(505,400,35,50);
+  block5 = new Block(540,400,35,50);
+  block6 = new Block(575,400,35,50);
+  block7 = new Block(610,400,35,50);
+
+  //level two 
+  block8 = new Block(435,330,35,50);
+  block9 = new Block(470,330,35,50);
+  block10 = new Block(505,330,35,50);
+  block11 = new Block(540,330,35,50);
+  block12 = new Block(575,330,35,50);
+
+  //level three
+  block13 = new Block(470,260,35,50);
+  block14 = new Block(505,260,35,50);
+  block15 = new Block(540,260,35,50);
+
+  //level top
+  block16 = new Block(505,190,35,50);
+
+  //level one
+  block17 = new Block(830,160,35,50);
+  block18 = new Block(865,160,35,50);
+  block19 = new Block(900,160,35,50);
+  block20 = new Block(935,160,35,50);
+  block21 = new Block(970,160,35,50);
+
+  //level two
+  block22 = new Block(865,90,35,50);
+  block23 = new Block(900,90,35,50);
+  block24 = new Block(935,90,35,50);
+
+  //level top
+  block25 = new Block(900,20,35,50);
+
+  polygon = new Polygon(150,190);
+
+  slingshot = new SlingShot(polygon.body, {x: 140,y: 190});
 }
 
-function setup(){
-    var canvas = createCanvas(1200,400);
-    engine = Engine.create();
-    world = engine.world;
+function draw() {
+  background(rgb(55, 43, 43));  
+  Engine.update(engine);
 
+  textSize(20);
+  fill("white");
+  text("Drag the Hexagonal Stone and Release it, to launch it towards the blocks", 100,50);
 
-    ground = new Ground(600,height,1200,20);
-    platform = new Ground(150, 305, 300, 170);
+  base.display();
+  stand1.display();
+  stand2.display();
 
-    box1 = new Box(700,320,70,70);
-    box2 = new Box(920,320,70,70);
-    pig1 = new Pig(810, 350);
-    log1 = new Log(810,260,300, PI/2);
+  fill(rgb(135, 206, 234));
+  block1.display();
+  block2.display();
+  block3.display();
+  block4.display();
+  block5.display();
+  block6.display();
+  block7.display();
 
-    box3 = new Box(700,240,70,70);
-    box4 = new Box(920,240,70,70);
-    pig3 = new Pig(810, 220);
+  fill(rgb(254, 191, 202));
+  block8.display();
+  block9.display();
+  block10.display();
+  block11.display();
+  block12.display();
 
-    log3 =  new Log(810,180,300, PI/2);
+  fill(rgb(63, 224, 208));
+  block13.display();
+  block14.display();
+  block15.display();
 
-    box5 = new Box(810,160,70,70);
-   // log4 = new Log(760,120,150, PI/7);
-    log5 = new Log(870,120,150, -PI/7);
+  fill(rgb(127, 127, 127));
+  block16.display();
 
-    bird = new Bird(200,50);
+  fill(rgb(135, 206, 234));
+  block17.display();
+  block18.display();
+  block19.display();
+  block20.display();
+  block21.display();
 
-    //log6 = new Log(230,180,80, PI/2);
-    slingshot = new SlingShot(bird.body,{x:200, y:50});
-}
+  fill(rgb(63, 224, 208));
+  block22.display();
+  block23.display();
+  block24.display();
 
-function draw(){
-    background(backgroundImg);
-    Engine.update(engine);
-    //strokeWeight(4);
-    box1.display();
-    box2.display();
-    ground.display();
-    pig1.display();
-    log1.display();
+  fill(rgb(254, 191, 202));
+  block25.display();
 
-    box3.display();
-    box4.display();
-    pig3.display();
-    log3.display();
+  polygon.display();
 
-    box5.display();
-   // log4.display();
-    log5.display();
-
-    bird.display();
-    platform.display();
-    //log6.display();
-    slingshot.display();    
+  slingshot.display();
 }
 
 function mouseDragged(){
-    Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+  Matter.Body.setPosition(polygon.body, {x: mouseX, y: mouseY});
 }
-
 
 function mouseReleased(){
-    slingshot.fly();
+  slingshot.fly();
 }
-function keyPressed(){
-if(keyCode===32){
-    slingshot.attach(bird.body);
-}
+function keyPressed() {
+  if (keyCode === 32) {
+    slingshot.attach(polygon.body);
+  }
 }
